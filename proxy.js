@@ -4,7 +4,7 @@ const request = require('request');
 const app = express();
 app.use(cors());
 
-const port = Number(process.env.PORT || 3000);
+const port = Number(process.env.PORT || 8080);
 const apiServerHost = (process.env.ELASTIC_URL || 'http://127.0.0.1:9200')
 
 const pipeRequest = (req, res) => {
@@ -37,5 +37,5 @@ app.post('/:index/_msearch', (req, res, body) => {
 
 // Server Listen
 app.listen(port, function () {
-	console.log(`Elastic proxy running port ${port}`);
+	console.log(`Elastic proxy running in port ${port}`);
 });
