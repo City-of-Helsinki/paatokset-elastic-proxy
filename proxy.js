@@ -8,13 +8,22 @@ const port = Number(process.env.PORT || 8080);
 const apiServerHost = (process.env.ELASTIC_URL || 'http://127.0.0.1:9200')
 
 const pipeRequest = (req, res) => {
-	req.pipe(request({
-		uri  : apiServerHost + req.url,
+	let modifiedRequest = {
+		uri: apiServerHost + req.url,
 		headers: {
 			'accept-encoding': 'none'
-		},
-		rejectUnauthorized: false,
-	}, function(err, res, body) {
+		}
+	}
+
+	if(process.env.ELASTIC_USER && process.env.ELASTIC_USER_KEY) {
+		modifiedRequest.headers['Authorization'] = 'Basic ' + Buffer.from(`${process.env.ELASTIC_USER}:${process.env.ELASTIC_USER_KEY}`.toString('base64'))
+	}
+
+	if(process.env.ELASTIC_CA) {
+		modifiedRequest.ca = [process.env.ELASTIC_CA]
+	}
+
+	req.pipe(request(modifiedRequest, function(err, res, body) {
 	})).pipe(res);
 }
 
