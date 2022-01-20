@@ -5,6 +5,8 @@ const request = require('request');
 const app = express();
 app.use(cors());
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0;
+
 const port = Number(process.env.PORT || 8080);
 const apiServerHost = (process.env.ELASTIC_URL || 'http://127.0.0.1:9200')
 
