@@ -1,3 +1,4 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const request = require('request');
@@ -16,7 +17,7 @@ const pipeRequest = (req, res) => {
 	}
 
 	if(process.env.ELASTIC_USER && process.env.ELASTIC_USER_KEY) {
-		modifiedRequest.headers['Authorization'] = 'Basic ' + Buffer.from(`${process.env.ELASTIC_USER}:${process.env.ELASTIC_USER_KEY}`.toString('base64'))
+		modifiedRequest.headers['Authorization'] = 'Basic ' + Buffer.from(`${process.env.ELASTIC_USER}:${process.env.ELASTIC_USER_KEY}`).toString('base64')
 	}
 
 	if(process.env.ELASTIC_CA) {
